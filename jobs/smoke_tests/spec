@@ -1,0 +1,32 @@
+---
+name: smoke_tests
+
+description: This job runs Smoke tests to make sure the cluster is configured properly
+
+packages: []
+
+templates:
+  run.sh: bin/run
+
+consumes:
+- name: elasticsearch
+  type: elasticsearch
+  optional: true
+- name: ingestor
+  type: ingestor
+  optional: true
+
+properties:
+  smoke_tests.syslog_ingestor.host:
+    description: 'IP of the syslog ingestor'
+  smoke_tests.syslog_ingestor.port:
+    description: 'Port of the syslog ingestor'
+    default: 5514
+  smoke_tests.elasticsearch_master.host:
+    description: 'IP of the elasticsearch master node'
+  smoke_tests.elasticsearch_master.port:
+    description: 'Port of the elasticsearch master node'
+    default: 9200
+  smoke_tests.use_tls:
+    description: Set it to true if the ingestor or the ls-router expects TCP-TLS traffic
+    default: false

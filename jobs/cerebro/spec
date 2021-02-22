@@ -1,0 +1,41 @@
+---
+name: cerebro
+
+description: This job runs Cerebro - an Admin UI for Elasticsearch cluster
+
+packages:
+- cerebro
+- openjdk-11
+
+
+templates:
+  bin/cerebro: bin/cerebro.sh
+  config/bpm.yml.erb: config/bpm.yml
+  config/application.conf.erb: config/application.conf
+
+consumes:
+ - name: elasticsearch
+   type: elasticsearch
+   optional: true
+
+properties:
+  elasticsearch.cluster_name:
+    description: The name of the elastic search cluster
+  cerebro.exec.options:
+    description: An array of additional options to pass when starting cerebro
+    default: []
+  cerebro.secret:
+    description: Secret will be used to sign Cerebro session cookies and CSRF tokens.
+  cerebro.user:
+    description: "Username for HTTP basic auth."
+    default: cerebro
+  cerebro.password:
+    description: "Password for HTTP basic auth."
+  cerebro.ldap.enabled:
+    description: "Set to true to enable LDAP authentication."
+    default: false
+  cerebro.ldap.options:
+    description: "Config options for LDAP authentication type."
+    example: |
+      method: simple
+      url: ldap://host:port

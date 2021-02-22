@@ -1,0 +1,5 @@
+check process cerebro
+  with pidfile /var/vcap/sys/run/bpm/cerebro/cerebro.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start cerebro"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop cerebro"
+  group vcap

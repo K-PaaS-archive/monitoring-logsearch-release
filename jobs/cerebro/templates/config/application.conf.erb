@@ -1,0 +1,56 @@
+# Secret will be used to sign session cookies, CSRF tokens and for other encryption utilities.
+secret = "<%= p("cerebro.secret") %>"
+
+# Application base path
+basePath = "/"
+
+# Rest request history max size per user
+rest.history.size = 50
+
+# Path of local database file
+data.path = "/var/vcap/store/cerebro/cerebro.db"
+
+# Defaults to RUNNING_PID at the root directory of the app.
+# To avoid creating a PID file set this value to /dev/null
+pidfile.path = "/dev/null"
+
+# Enable gzip when requesting data from es
+es = {
+  gzip = true
+}
+
+<%
+  cluster_name = nil
+  if_link("elasticsearch") { |elasticsearch_link| cluster_name = elasticsearch_link.p("elasticsearch.cluster_name") }
+  unless cluster_name
+    cluster_name = p("elasticsearch.cluster_name")
+  end
+%>
+
+hosts = [
+  {
+    host = "http://localhost:9200"
+    name = "<%= cluster_name %>"
+  }
+]
+
+<% if_p('cerebro.user', 'cerebro.password') do %>
+auth = {
+  type: basic
+  settings: {
+    username = "<%= p('cerebro.user') %>"
+    password = "<%= p('cerebro.password') %>"
+  }
+}
+<% end %>
+
+<% if p('cerebro.ldap.enabled') %>
+auth = {
+  type: ldap
+  settings: {
+  <% p('cerebro.ldap.options').to_a.each do | k, v | %>
+    <%= k %> = "<%= v %>"
+  <% end %>
+  }
+}
+<% end %>
