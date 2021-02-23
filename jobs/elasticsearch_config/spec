@@ -12,6 +12,12 @@ templates:
   index-templates/index-mappings.json.erb: index-templates/index-mappings.json
 
 properties:
+  searchguard.options.account.id:
+    description: "elasticsearch Search Guard default ID (admin)"
+    default: "admin"
+  searchguard.options.account.password:
+    description: "elasticsearch Search Guard default PW (admin)"
+    default: "admin"
   elasticsearch_config.elasticsearch.host:
     description: "The elasticsearch master node hostname"
     default: 127.0.0.1

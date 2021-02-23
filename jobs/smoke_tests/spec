@@ -17,6 +17,12 @@ consumes:
   optional: true
 
 properties:
+  searchguard.options.account.id:
+    description: "elasticsearch Search Guard default ID (admin)"
+    default: "admin"
+  searchguard.options.account.password:
+    description: "elasticsearch Search Guard default PW (admin)"
+    default: "admin"
   smoke_tests.syslog_ingestor.host:
     description: 'IP of the syslog ingestor'
   smoke_tests.syslog_ingestor.port:

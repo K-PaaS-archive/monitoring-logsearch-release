@@ -8,10 +8,14 @@ elasticsearch_port = p("elasticsearch_config.elasticsearch.port")
 %>
 
 # Delete existing templates before uploading
-URL=http://<%= elasticsearch_host %>:<%= elasticsearch_port %>
-for template in $(curl -s ${URL}/_cat/templates | awk '{print $1}'); do
+# URL=http://<%= elasticsearch_host %>:<%= elasticsearch_port %>
+URL=https://<%= elasticsearch_host %>:<%= elasticsearch_port %>
+
+AUTH=<%= p('searchguard.options.account.id') %>:<%= p('searchguard.options.account.password') %>
+
+for template in $(curl -s -u -k ${AUTH} ${URL}/_cat/templates | awk '{print $1}'); do
   if ! grep -qw ${template} <(echo "<%= p('elasticsearch_config.templates').map { |template| template.keys.first }.join(' ') %>"); then
-    curl -s -XDELETE ${URL}/_template/${template}
+    curl -s -u -k ${AUTH} -XDELETE ${URL}/_template/${template}
   fi
 done
 
@@ -43,9 +47,10 @@ def put_to_es(url_stem_base, es_config, request_params = {})
     elasticsearch_host = p("elasticsearch_config.elasticsearch.host")
     elasticsearch_port = p("elasticsearch_config.elasticsearch.port")
 
-    ret << "URL=http://#{elasticsearch_host}:#{elasticsearch_port}/#{url_stem}"
+    # ret << "URL=http://#{elasticsearch_host}:#{elasticsearch_port}/#{url_stem}"
+    ret << "URL=https://#{elasticsearch_host}:#{elasticsearch_port}/#{url_stem}"
     if nil == content
-     ret << 'curl -X DELETE "${URL}"'
+     ret << 'curl -X DELETE -k -u ${AUTH} "${URL}"'
     else
       if content.start_with? '/var/vcap'
         ret << "CONTENT_PATH=\"#{content}\""
@@ -59,7 +64,7 @@ BASH
       end
 
       ret << <<BASH
-HTTP_CODE=$(curl -s -H 'Content-Type: application/json' -w '%{http_code}' -o ${DATA_DIR}/elasticsearch_config-response.txt -X PUT --data-binary @$CONTENT_PATH "$URL")
+HTTP_CODE=$(curl -s -H 'Content-Type: application/json' -w '%{http_code}' -k -u ${AUTH} -o ${DATA_DIR}/elasticsearch_config-response.txt -X PUT --data-binary @$CONTENT_PATH "$URL")
 
 if grep --quiet "\"errors\":true" ${DATA_DIR}/elasticsearch_config-response.txt ; then
   cat ${DATA_DIR}/elasticsearch_config-response.txt >> /dev/stderr
@@ -83,7 +88,8 @@ end
 # wait for elasticsearch availability
 #
 
-until curl -sf 'http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_cluster/health?wait_for_status=yellow&timeout=10m'; do :; done
+# until curl -sf 'http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_cluster/health?wait_for_status=yellow&timeout=10m'; do :; done
+until curl -sf -k -u ${AUTH} 'https://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_cluster/health?wait_for_status=yellow&timeout=10m'; do :; done
 
 echo "--- Templates"
 <%= put_to_es('_template', p('elasticsearch_config.templates')) %>

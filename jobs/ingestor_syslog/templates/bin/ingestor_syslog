@@ -10,6 +10,7 @@ export LOG_DIR=/var/vcap/sys/log/$JOB_NAME
 export STORE_DIR=/var/vcap/store/$JOB_NAME
 export JOB_DIR=/var/vcap/jobs/$JOB_NAME
 source /var/vcap/packages/openjdk-11/bosh/runtime.env
+AUTH=<%= p("searchguard.options.account.id") %>:<%= p("searchguard.options.account.password") %>
 
 <%
   es_host = nil
@@ -26,7 +27,7 @@ function wait_for_template {
   set +e
   while true;  do
     echo "Waiting for index template to be uploaded: $template_name"
-    curl -I -f -i "$MASTER_URL"/_template/$template_name > /dev/null 2>&1
+    curl -I -f -i -k -u ${AUTH} "$MASTER_URL"/_template/$template_name > /dev/null 2>&1
     [ $? ] && break
     sleep 5
   done

@@ -5,7 +5,7 @@ wait_for_listening() {
   elapsed=0
   until [ $elapsed -ge <%= p("elasticsearch.health.connect_timeout") %> ]
   do
-    nc -4 -z -v -u <%= p("searchguard.options.account.id") %>:<%= p("searchguard.options.account.password") %> localhost 9200 >/dev/null 2>&1 && break
+    nc -4 -z -v localhost 9200 >/dev/null 2>&1 && break
     elapsed=$[$elapsed+<%= p("elasticsearch.health.connect_interval") %>]
     sleep <%= p("elasticsearch.health.connect_interval") %>
     echo -n .
@@ -20,16 +20,17 @@ wait_for_listening() {
 
 wait_for_greenstate() {
   out=$(mktemp health-XXXXXX)
+  AUTH=<%= p("searchguard.options.account.id") %>:<%= p("searchguard.options.account.password") %>
   remaining=<%= p("elasticsearch.health.timeout") %>
   echo "=== Waiting for Green status from Elasticsearch..."
   until [ "${remaining}" -le 0 ]; do
     <% if p("elasticsearch.node.allow_data") and not p("elasticsearch.node.allow_master") %>
-    curl -sw '\n%{http_code}' -u <%= p("searchguard.options.account.id") %>:<%= p("searchguard.options.account.password") %> https://localhost:9200/_cluster/health > ${out}
+    curl -sw '\n%{http_code}' -u ${AUTH} -k https://localhost:9200/_cluster/health > ${out}
     <% else %>
-    curl -sw '\n%{http_code}' -u <%= p("searchguard.options.account.id") %>:<%= p("searchguard.options.account.password") %> https://localhost:9200/_cluster/health?local=true > ${out}
+    curl -sw '\n%{http_code}' -u ${AUTH} -k https://localhost:9200/_cluster/health?local=true > ${out}
     <% end %>
-    body=$(cat ${out} | head -n -1)
-    status=$(cat ${out} | tail -n 1)
+    body=$(cat ${out} | head -n1)
+    status=$(cat ${out} | tail -n1)
     # echo "body: ${body}"
     echo -n "[${status}] "
     <% if p("elasticsearch.node.allow_data") and not p("elasticsearch.node.allow_master") %>
@@ -66,20 +67,19 @@ wait_for_greenstate() {
   if [[ $STRING =~ "master: true" ]]; then
     if [ -d /var/vcap/jobs/elasticsearch/config/sgadmin_logsearch.sh ]; then
       echo 'Done'
-      break
     else
-      sed -i 's/data: false/data: true/g' $YML_PATH &&
-      if [ -d /var/vcap/store/elasticsearch/nodes/0/_state ]; then
-        rm -rf /var/vcap/store/elasticsearch/nodes/0/_state
-      fi &&
-      monit restart all && sleep 40s &&
-      chmod +x $JOBS/bin/searchguard.sh &&
-      $JOBS/bin/searchguard.sh &&
+      # sed -i 's/data: false/data: true/g' $YML_PATH
+      # if [ -d /var/vcap/store/elasticsearch/nodes/0/_state ]; then
+      #   rm -rf /var/vcap/store/elasticsearch/nodes/0/_state
+      # fi
+      # /var/vcap/bosh/bin/monit restart all
+      # monit restart all
+      # sleep 40s
+      # chmod +x $JOBS/bin/searchguard.sh
+      sh $JOBS/bin/searchguard.sh
       echo 'Done'
-      break
     fi
     echo "Done"
-    break
   else
     wait_for_listening
     wait_for_greenstate

@@ -12,7 +12,6 @@ SG_ID='<%= p("searchguard.options.account.id") %>'
 # SG_PW='<%= p("searchguard.options.account.password") %>'
 SG_PW=$($PACK/plugins/search-guard-7/tools/hash.sh -p <%= p("searchguard.options.account.password") %>)
 
-cp $PACK/plugins/search-guard-7/sgconfig/sg_internal_users.yml $PACK/plugins/search-guard-7/sgconfig/sg_internal_users.yml-bak
 cat << EOT > $PACK/plugins/search-guard-7/sgconfig/sg_internal_users.yml
 ---
 # This is the internal user database
@@ -57,7 +56,7 @@ $PACK/plugins/search-guard-7/tools/sgadmin.sh \
 -icl
 EOF
 
-sudo chmod +x $ES_CONF_DIR/sgadmin_logsearch.sh
+chmod +x $ES_CONF_DIR/sgadmin_logsearch.sh
 chown vcap:vcap $ES_CONF_DIR/sgadmin_logsearch.sh &&
 chmod +x $ES_CONF_DIR/sgadmin_logsearch.sh &&
 $ES_CONF_DIR/sgadmin_logsearch.sh

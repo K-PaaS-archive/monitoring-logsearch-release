@@ -41,14 +41,10 @@ chmod -R 750 /var/vcap/data/jobs
 chmod -R 750 /var/vcap/data/packages
 
 if [ -d /var/vcap/store/elasticsearch/nodes/0 ]; then
-	if [ -d /var/vcap/store/elasticsearch/nodes/0/_state ]; then
-		rm -rf /var/vcap/store/elasticsearch/nodes/0/_state
-	else
-		chown -R vcap:vcap $STORES/elasticsearch/
-		chmod -R 777 $STORES/elasticsearch/
-		chown -R vcap:vcap $STORES/elasticsearch/nodes/0/node.lock
-		chmod -R 777 $STORES/elasticsearch/nodes/0/node.lock
-	fi
+	chown -R vcap:vcap $STORES/elasticsearch/
+	chmod -R 777 $STORES/elasticsearch/
+	chown -R vcap:vcap $STORES/elasticsearch/nodes/0/node.lock
+	chmod -R 777 $STORES/elasticsearch/nodes/0/node.lock
 else
 	mkdir -p $STORES/elasticsearch/nodes/0/
 	touch $STORES/elasticsearch/nodes/0/node.lock
@@ -57,3 +53,37 @@ else
 	chown -R vcap:vcap $STORES/elasticsearch/nodes/0/node.lock
 	chmod -R 777 $STORES/elasticsearch/nodes/0/node.lock
 fi
+
+
+  # Environment
+  JOBS=$(readlink -f /var/vcap/jobs/elasticsearch)
+  STORES=/var/vcap/store
+  YML_PATH="/var/vcap/jobs/elasticsearch/config/elasticsearch.yml"
+  PLG_PATH="/var/vcap/packages/elasticsearch/plugins/search-guard-7/sgconfig/sg_config.yml"
+  STRING="$( cat "$YML_PATH" )"
+  echo "$STRING"
+  if [[ $STRING =~ "master: true" ]]; then
+    if [ -d /var/vcap/jobs/elasticsearch/config/sgadmin_logsearch.sh ]; then
+      echo 'Done'
+    else
+      sed -i 's/data: false/data: true/g' $YML_PATH
+	  sed -i 's/      #do_not_fail_on_forbidden: false/      do_not_fail_on_forbidden: true/g' $PLG_PATH
+      if [ -d /var/vcap/store/elasticsearch/nodes/0/_state ]; then
+        rm -rf /var/vcap/store/elasticsearch/nodes/0/_state
+      fi
+	  if [ -f /var/vcap/jobs/elasticsearch/config/init_ok ]; then
+	  	echo 'init ok '
+	  else
+	    echo 'init not ok'
+		touch /var/vcap/jobs/elasticsearch/config/init_ok
+		chown vcap:vcap $JOBS/bin/searchguard.sh
+		chmod +x $JOBS/bin/searchguard.sh
+		monit restart all
+		sleep 40s
+	  fi
+    #   chmod +x $JOBS/bin/searchguard.sh
+    #   sh $JOBS/bin/searchguard.sh
+      echo 'Done'
+    fi
+    echo "Done"
+  fi

@@ -30,7 +30,7 @@ kibana.index: "<%= p('kibana.kibana_index') %>"
 
 # The default application to load.
 # kibana.defaultAppId: "discover"
-kibana.defaultAppId: "<%= p('kibana.default_app_id') %>"
+# kibana.defaultAppId: "<%= p('kibana.default_app_id') %>"
 
 # If your Elasticsearch is protected with basic auth, these are the user credentials
 # used by the Kibana server to perform maintenance on the kibana_index at startup. Your Kibana
@@ -40,20 +40,22 @@ elasticsearch.username: "<%= p('searchguard.options.account.id') %>"
 elasticsearch.password: "<%= p('searchguard.options.account.password') %>"
 
 # SSL for outgoing requests from the Kibana Server to the browser (PEM formatted)
+# server.ssl.enabled: false
 # server.ssl.cert: /path/to/your/server.crt
 # server.ssl.key: /path/to/your/server.key
 
 # Optional setting to validate that your Elasticsearch backend uses the same key files (PEM formatted)
-# elasticsearch.ssl.cert: /path/to/your/client.crt
+# elasticsearch.ssl.certificate: /path/to/your/client.crt
 # elasticsearch.ssl.key: /path/to/your/client.key
 
 # If you need to provide a CA certificate for your Elasticsearch instance, put
 # the path of the pem file here.
-# elasticsearch.ssl.ca: /path/to/your/CA.pem
+# elasticsearch.ssl.certificateAuthorities: [ "/path/to/your/CA.pem" ]
 
 # Set to false to have a complete disregard for the validity of the SSL
 # certificate.
-# elasticsearch.ssl.verify: true
+# elasticsearch.ssl.verify: certificate
+elasticsearch.ssl.verificationMode: none
 
 # Time in milliseconds to wait for elasticsearch to respond to pings, defaults to
 # request_timeout setting
@@ -93,3 +95,5 @@ console.enabled: <%= p("kibana.console_enabled") %>
 <% if_p('kibana.config_options') do p("kibana.config_options", {}).each do | k, v | %>
 <%= k %>: <%= v %><% end %>
 <% end %>
+
+searchguard.allow_client_certificates: true

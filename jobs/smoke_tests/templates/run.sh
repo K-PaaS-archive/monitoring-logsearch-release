@@ -26,9 +26,11 @@
   end
 %>
 
-MASTER_URL="http://<%= elasticsearch_host %>:<%= elasticsearch_port %>"
+# MASTER_URL="http://<%= elasticsearch_host %>:<%= elasticsearch_port %>"
+MASTER_URL="https://<%= elasticsearch_host %>:<%= elasticsearch_port %>"
 INGESTOR_HOST="<%= ingestor_host %>"
 INGESTOR_PORT="<%= ingestor_port %>"
+AUTH=<%= p('searchguard.options.account.id') %>:<%= p('searchguard.options.account.password') %>
 
 SMOKE_ID=$(LC_ALL=C; cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 LOG="<13>$(date -u +"%Y-%m-%dT%H:%M:%SZ") 0.0.0.0 smoke-test-errand [job=smoke_tests index=0]  {\"smoke-id\":\"$SMOKE_ID\"}"
@@ -47,7 +49,8 @@ SLEEP=5
 
 echo -n "Polling for $TRIES seconds"
 while [ $TRIES -gt 0 ]; do
-  result=$(curl -s $MASTER_URL/_search?q=$SMOKE_ID)
+  # result=$(curl -s $MASTER_URL/_search?q=$SMOKE_ID)
+  result=$(curl -s -k -u ${AUTH} $MASTER_URL/_search?q=$SMOKE_ID)
   if [[ $result == *"$SMOKE_ID"* ]]; then
     echo -e "\nSUCCESS: Found log containing $SMOKE_ID"
     echo $result
