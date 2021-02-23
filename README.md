@@ -3,7 +3,7 @@
 ### Create PaaS-TA Monitoring Logsearch Release   
   - Download the latest PaaS-TA Monitoring LogSearch Release    
     ```   
-    $ git clone --recursive https://github.com/PaaS-TA/PaaS-TA-logsearch-Release.git
+    $ git clone --recursive https://github.com/PaaS-TA/paas-ta-monitoring-logsearch-release.git
     $ cd paas-ta-logsearch-release   
     ```   
   - Download & Copy "source files" into the src directory    
