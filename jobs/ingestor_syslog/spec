@@ -46,6 +46,12 @@ consumes:
   optional: true
 
 properties:
+  searchguard.options.account.id:
+    description: "elasticsearch Search Guard default ID (admin)"
+    default: "admin"
+  searchguard.options.account.password:
+    description: "elasticsearch Search Guard default PW (admin)"
+    default: "admin"
   logstash.heap_size:
     description: sets jvm heap sized
   logstash.heap_percentage:

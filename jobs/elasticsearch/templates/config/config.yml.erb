@@ -74,3 +74,16 @@ cloud:
 <% if_p('elasticsearch.config_options') do p("elasticsearch.config_options", {}).each do | k, v | %>
 <%= k %>: <%= v %><% end %>
 <% end %>
+
+<% if_p('searchguard.options.secureguard.edited.configuration') do p("searchguard.options.secureguard.edited.configuration", {}).each do | k, v | %>
+<%= k %>: <%= v %><% end %>
+<% end %>
+
+<% if_p('searchguard.options.secureguard.edited.tls') do p("searchguard.options.secureguard.edited.tls", {}).each do | k, v | %>
+<%= k %>: <%= v %><% end %>
+<% end %>
+
+<% if_p('searchguard.options.secureguard.fixed') do p("searchguard.options.secureguard.fixed", {}).each do | k, v | %>
+<%= k %>: <%= v %><% end %>
+<% end %>
+

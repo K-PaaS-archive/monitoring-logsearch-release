@@ -25,6 +25,12 @@ provides:
   - kibana.port
 
 properties:
+  searchguard.options.account.id:
+    description: "elasticsearch Search Guard default ID (admin)"
+    default: "admin"
+  searchguard.options.account.password:
+    description: "elasticsearch Search Guard default PW (admin)"
+    default: "admin"
   kibana.elasticsearch.host:
     description: "IP address of elasticsearch master to send elasticsearch requests to"
     default: "127.0.0.1"

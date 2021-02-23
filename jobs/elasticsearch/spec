@@ -11,6 +11,12 @@ templates:
   bin/post-deploy.erb: bin/post-deploy
   bin/post-start.erb: bin/post-start
   bin/pre-start: bin/pre-start
+  bin/searchguard: bin/searchguard.sh
+  config/sg_admin_cert.erb: config/kirk.pem
+  config/sg_admin_cert_key.erb: config/kirk-key.pem
+  config/node_cert.erb: config/esnode.pem
+  config/node_key.erb: config/esnode-key.pem
+  config/root_ca.erb: config/root-ca.pem
   bin/elasticsearch: bin/elasticsearch.sh
   config/bpm.yml.erb: config/bpm.yml
   config/config.yml.erb: config/elasticsearch.yml
@@ -35,6 +41,31 @@ consumes:
   optional: true
 
 properties:
+  searchguard.options.account.id:
+    description: "elasticsearch Search Guard default ID (admin)"
+    default: "admin"
+  searchguard.options.account.password:
+    description: "elasticsearch Search Guard default PW (admin)"
+    default: "admin"
+  searchguard.options.secureguard.edited.configuration:
+    description: "Additional options to append to config.yml (YAML format)."
+    default: ~
+  searchguard.options.secureguard.edited.tls:
+    description: "Additional options to append to config.yml (YAML format)."
+    default: ~
+  searchguard.options.secureguard.fixed:
+    description: "Additional options to append to config.yml (YAML format)."
+    default: ~
+  searchguard.options.ca_cert.NODE_CERT:
+    description: CA certificate for SSL plugin
+  searchguard.options.ca_cert.NODE_KEY:
+    description: CA certificate for SSL plugin
+  searchguard.options.ca_cert.ROOT_CA:
+    description: CA certificate for SSL plugin
+  searchguard.options.ca_cert.SG_ADMIN_CERT_KEY:
+    description: CA certificate for SSL plugin
+  searchguard.options.ca_cert.SG_ADMIN_CERT:
+    description: CA certificate for SSL plugin
   elasticsearch.master_hosts:
     description: The list of elasticsearch master node IPs
   elasticsearch.port:

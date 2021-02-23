@@ -2,4 +2,5 @@
 name: kibana
 
 files:
-  - kibana/kibana-7.6.1-linux-x86_64.tar.gz
+  - kibana/kibana-oss-7.10.2-linux-x86_64.tar.gz
+  - kibana/search-guard-kibana-plugin-7.10.2-49.0.0.zip

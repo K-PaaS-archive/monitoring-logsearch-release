@@ -70,6 +70,8 @@ output {
             <%
               options = {
                 "hosts" => [ es_output_hosts ],
+                "user" => p('searchguard.options.account.id'),
+                "password" => p('searchguard.options.account.password'),
                 "index" => p('logstash_parser.elasticsearch.index'),
                 "manage_template" => false
               }

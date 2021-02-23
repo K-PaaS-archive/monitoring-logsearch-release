@@ -1,8 +1,34 @@
 #!/bin/bash
 
-if ! [[ $(ls -1 /var/vcap/packages/kibana/plugins | wc -l) == 0 ]]; then
-  rm -rf /var/vcap/packages/kibana/plugins/*
-fi
+#if ! [[ $(ls -1 /var/vcap/packages/kibana/plugins | wc -l) == 0 ]]; then
+#  rm -rf /var/vcap/packages/kibana/plugins/*
+#fi
 
-cd /var/vcap/packages/kibana
-chown -R vcap:vcap optimize config data plugins
+# Environment
+PACK=$(readlink -f /var/vcap/packages)
+JOBS=$(readlink -f /var/vcap/jobs)
+STORES=/var/vcap/store
+DATAS=/var/vcap/data
+
+# Permission
+chown -R vcap:vcap $PACK/elasticsearch
+chown -R vcap:vcap $PACK/kibana
+chmod -R 750 $PACK/elasticsearch
+chmod -R 750 $PACK/kibana
+chown -R vcap:vcap $JOBS/elasticsearch
+chown -R vcap:vcap $JOBS/kibana
+chmod -R 750 $JOBS/elasticsearch
+chmod-R 750 $JOBS/kibana
+chown -R vcap:vcap $STORES
+chmod -R 750 $STORES
+# chown vcap:vcap $STORES/elasticsearch
+# chown vcap:vcap $STORES/kibana
+# chmod -R 750 $STORES/elasticsearch
+# chmod -R 750 $STORES/kibana
+chown -R vcap:vcap $DATAS/elasticsearch
+chown -R vcap:vcap $DATAS/kibana
+chmod -R 750 $DATAS/elasticsearch
+chmod -R 750 $DATAS/kibana
+chown -R vcap:vcap /var/vcap/data/jobs /var/vcap/data/packages
+chmod -R 750 /var/vcap/data/jobs
+chmod -R 750 /var/vcap/data/packages

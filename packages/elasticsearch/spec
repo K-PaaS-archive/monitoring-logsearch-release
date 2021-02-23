@@ -2,4 +2,5 @@
 name: elasticsearch
 
 files:
-  - elasticsearch/elasticsearch-7.6.1-linux-x86_64.tar.gz
+  - elasticsearch/elasticsearch-oss-7.10.2-linux-x86_64.tar.gz
+  - elasticsearch/search-guard-suite-plugin-7.10.2-49.0.0.zip

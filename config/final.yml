@@ -1,6 +1,8 @@
 ---
 blobstore:
   provider: s3
+  #  provider: local
   options:
     bucket_name: logsearch
+    # blobstore_path: ./blobs2
 final_name: logsearch

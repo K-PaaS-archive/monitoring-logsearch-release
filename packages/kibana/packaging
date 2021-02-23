@@ -1,3 +1,8 @@
 set -e
 
-tar xzf kibana/kibana-7.6.1-linux-x86_64.tar.gz -C $BOSH_INSTALL_TARGET --strip-components 1
+tar xzf kibana/kibana-oss-7.10.2-linux-x86_64.tar.gz -C $BOSH_INSTALL_TARGET --strip-components 1
+
+export PATH="${BOSH_INSTALL_TARGET}/bin:${PATH}"
+
+# Installs missing plugins
+kibana-plugin install file:///${PWD}/kibana/search-guard-kibana-plugin-7.10.2-49.0.0.zip --allow-root
