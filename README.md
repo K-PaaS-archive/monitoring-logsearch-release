@@ -1,7 +1,7 @@
-# PaaS-TA-logsearch-Release
+# PaaS-TA-monitoring-logsearch-Release
 
-### Create PaaS-TA Logsearch Release   
-  - Download the latest PaaS-TA LogSearch Release    
+### Create PaaS-TA Monitoring Logsearch Release   
+  - Download the latest PaaS-TA Monitoring LogSearch Release    
     ```   
     $ git clone --recursive https://github.com/PaaS-TA/PaaS-TA-logsearch-Release.git
     $ cd paas-ta-logsearch-release   
@@ -9,7 +9,7 @@
   - Download & Copy "source files" into the src directory    
     ```   
     ## download source files    
-    $ wget -O src.zip https://nextcloud.paas-ta.org/index.php/s/업데이트 예정/download
+    $ wget -O src.zip https://nextcloud.paas-ta.org/index.php/s/eJ5Xk3w8zzXemSP/download
     
     ## unzip download source files    
     $ unzip src.zip  (cerebro, curator, elasticsearch, elasticsearch-utils, haproxy, kibana, 
