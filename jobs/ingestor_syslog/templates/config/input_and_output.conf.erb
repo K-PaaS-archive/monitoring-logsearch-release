@@ -72,6 +72,10 @@ output {
                 "hosts" => [ es_output_hosts ],
                 "user" => p('searchguard.options.account.id'),
                 "password" => p('searchguard.options.account.password'),
+                "ssl" => true,
+                "ssl_certificate_verification" => false,
+                "cacert" => "/var/vcap/packages/logstash/data/root-ca.pem",
+                "ilm_enabled" => false,
                 "index" => p('logstash_parser.elasticsearch.index'),
                 "manage_template" => false
               }

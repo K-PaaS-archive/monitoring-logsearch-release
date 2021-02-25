@@ -6,3 +6,53 @@ source /var/vcap/packages/openjdk-11/bosh/runtime.env
   <%= plugin.except("name").map { |key, value| "--#{key}=#{value}" }.join(" ") %> \
   <%= plugin["name"] %>
 <% end %>
+
+# Environment
+PACK=$(readlink -f /var/vcap/packages)
+JOBS=$(readlink -f /var/vcap/jobs)
+STORES=/var/vcap/store
+DATAS=/var/vcap/data
+
+# Permission
+chown -R vcap:vcap $PACK/elasticsearch
+chown -R vcap:vcap $PACK/ingestor_syslog
+chmod -R 750 $PACK/elasticsearch
+chmod -R 750 $PACK/ingestor_syslog
+chown -R vcap:vcap $JOBS/elasticsearch
+chown -R vcap:vcap $JOBS/ingestor_syslog
+chmod -R 750 $JOBS/elasticsearch
+chmod -R 750 $JOBS/ingestor_syslog
+chown -R vcap:vcap $STORES
+chmod -R 750 $STORES
+chown -R vcap:vcap $DATAS/ingestor_syslog
+chown -R vcap:vcap $DATAS/elasticsearch
+chmod -R 750 $DATAS/elasticsearch
+chmod -R 750 $DATAS/ingestor_syslog
+chown -R vcap:vcap /var/vcap/data/jobs /var/vcap/data/packages
+chmod -R 750 /var/vcap/data/jobs
+chmod -R 750 /var/vcap/data/packages
+
+if [ -d /var/vcap/store/elasticsearch/nodes/0 ]; then
+	chown -R vcap:vcap $STORES/elasticsearch/
+	chmod -R 777 $STORES/elasticsearch/
+	chown -R vcap:vcap $STORES/elasticsearch/nodes/0/node.lock
+	chmod -R 777 $STORES/elasticsearch/nodes/0/node.lock
+else
+	mkdir -p $STORES/elasticsearch/nodes/0/
+	touch $STORES/elasticsearch/nodes/0/node.lock
+	chown -R vcap:vcap $STORES/elasticsearch/
+	chmod -R 777 $STORES/elasticsearch/
+	chown -R vcap:vcap $STORES/elasticsearch/nodes/0/node.lock
+	chmod -R 777 $STORES/elasticsearch/nodes/0/node.lock
+fi
+
+if [ -f /var/vcap/packages/logstash/data/root-ca.pem ]; then
+	echo "root-ca.pem exist"
+else
+	echo "root-ca.pem not exist, copy root-ca.pem"
+	cp $JOBS/elasticsearch/config/root-ca.pem $PACK/logstash/data/root-ca.pem
+	chmod vcap:vcap $PACK/logstash/data/root-ca.pem
+	chmod 750 $PACK/logstash/data/root-ca.pem
+	ls -al $PACK/logstash/data/
+	echo "Copy Done."
+fi
