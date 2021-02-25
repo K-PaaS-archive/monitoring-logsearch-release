@@ -87,3 +87,8 @@ fi
     fi
     echo "Done"
   fi
+
+  if [[ $STRING =~ "master: false" ]]; then
+	echo 'master: false, sg_internal_users.yml removeing'
+    echo '' > /var/vcap/packages/elasticsearch/plugins/search-guard-7/sgconfig/sg_internal_users.yml
+  fi
