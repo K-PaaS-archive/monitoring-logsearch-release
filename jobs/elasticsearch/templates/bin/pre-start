@@ -39,6 +39,8 @@ chmod -R 750 $DATAS/elasticsearch
 chown -R vcap:vcap /var/vcap/data/jobs /var/vcap/data/packages
 chmod -R 750 /var/vcap/data/jobs
 chmod -R 750 /var/vcap/data/packages
+chmod 660 /var/vcap/packages/elasticsearch/config/elasticsearch.yml
+chmod 660 /var/vcap/jobs/elasticsearch/config/elasticsearch.yml
 
 if [ -d /var/vcap/store/elasticsearch/nodes/0 ]; then
 	chown -R vcap:vcap $STORES/elasticsearch/

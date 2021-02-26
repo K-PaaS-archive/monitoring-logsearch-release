@@ -7,3 +7,6 @@ appender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%ma
 
 rootLogger.level = <%= p("elasticsearch.log_level") %>
 rootLogger.appenderRef.console.ref = console
+
+logger.action.name = org.elasticsearch.action
+logger.action.level = <%= p("elasticsearch.log_action_level") %>
