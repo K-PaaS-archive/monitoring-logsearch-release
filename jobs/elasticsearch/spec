@@ -78,7 +78,7 @@ properties:
     description: The default logging level (e.g. WARN, DEBUG, INFO)
     default: INFO
   elasticsearch.log_action_level:
-    description: The default logging level (e.g. WARN, DEBUG, INFO)
+    description: The org.elasticsearch.action logging level (e.g. WARN, DEBUG, INFO)
     default: debug
   elasticsearch.jvm_options:
     description: Additional Java Virtual Machine options
