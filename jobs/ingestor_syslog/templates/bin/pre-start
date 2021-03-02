@@ -31,6 +31,8 @@ chmod -R 750 $DATAS/ingestor_syslog
 chown -R vcap:vcap /var/vcap/data/jobs /var/vcap/data/packages
 chmod -R 750 /var/vcap/data/jobs
 chmod -R 750 /var/vcap/data/packages
+chmod 660 $PACK/elasticsearch/config/elasticsearch.yml
+chmod 660 $JOBS/elasticsearch/config/elasticsearch.yml
 
 if [ -d /var/vcap/store/elasticsearch/nodes/0 ]; then
 	chown -R vcap:vcap $STORES/elasticsearch/
