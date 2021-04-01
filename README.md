@@ -9,7 +9,7 @@
   - Download & Copy "source files" into the src directory    
     ```   
     ## download source files    
-    $ wget -O src.zip https://nextcloud.paas-ta.org/index.php/s/eJ5Xk3w8zzXemSP/download
+    $ wget -O src.zip https://nextcloud.paas-ta.org/index.php/s/qdLx6JbXW6zQEQx/download
     
     ## unzip download source files    
     $ unzip src.zip  (cerebro, curator, elasticsearch, elasticsearch-utils, haproxy, kibana, 
