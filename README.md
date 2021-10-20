@@ -17,7 +17,7 @@
   <tr align=center>
     <td rowspan=2 colspan=2><a href="https://github.com/PaaS-TA/monitoring-deployment">모니터링</a></td>
     <td><a href="https://github.com/PaaS-TA/PaaS-TA-Monitoring-Release">Monitoring</a></td>
-    <td>🚩 <a href="https://github.com/PaaS-TA/paas-ta-monitoring-logsearch-release">Logsearch</a></td>
+    <td>🚩 <a href="https://github.com/PaaS-TA/monitoring-logsearch-release">Logsearch</a></td>
     <td><a href="https://github.com/PaaS-TA/paas-ta-monitoring-influxdb-release">InfluxDB</a></td>
     <td><a href="https://github.com/PaaS-TA/paas-ta-monitoring-redis-release">Redis</a></td>
   </tr>
@@ -63,13 +63,13 @@
 </table>
 <i>🚩 You are here.</i>
 
-# PaaS-TA-monitoring-logsearch-Release
+# PaaS-TA monitoring-logsearch-release Guide
 
-### Create PaaS-TA Monitoring Logsearch Release   
-  - Download the latest PaaS-TA Monitoring LogSearch Release    
+### Create PaaS-TA monitoring-logsearch-release
+  - Download the latest PaaS-TA monitoring-logsearch-release
     ```   
-    $ git clone --recursive https://github.com/PaaS-TA/paas-ta-monitoring-logsearch-release.git
-    $ cd paas-ta-monitoring-logsearch-release   
+    $ git clone --recursive https://github.com/PaaS-TA/monitoring-logsearch-release.git
+    $ cd monitoring-logsearch-release   
     ```   
   - Download & Copy "source files" into the src directory    
     ```   
@@ -197,7 +197,7 @@
 	29 directories, 81 files
 
     ```  
-  - Create PaaS-TA Logsearch Release   
+  - Create PaaS-TA monitoring-logsearch-release 
     ```   
     ## <VERSION> :: release version (e.g. 211.1.1)   
     ## <RELEASE_TARBALL_PATH> :: release file path (e.g. /home/ubuntu/workspace/logsearch-release-<VERSION>.tgz)    
