@@ -29,16 +29,16 @@ export JAVA_HOME="/var/vcap/packages/elasticsearch/jdk"
 
 # Permission
 chown -R vcap:vcap $PACK/elasticsearch
-chmod -R 750 $PACK/elasticsearch
+chmod -R 755 $PACK/elasticsearch
 chown -R vcap:vcap $JOBS/elasticsearch
-chmod -R 750 $JOBS/elasticsearch
+chmod -R 755 $JOBS/elasticsearch
 chown -R vcap:vcap $STORES
 chmod -R 750 $STORES
 chown -R vcap:vcap $DATAS/elasticsearch
 chmod -R 750 $DATAS/elasticsearch
 chown -R vcap:vcap /var/vcap/data/jobs /var/vcap/data/packages
-chmod -R 750 /var/vcap/data/jobs
-chmod -R 750 /var/vcap/data/packages
+chmod -R 755 /var/vcap/data/jobs
+chmod -R 755 /var/vcap/data/packages
 chmod 660 $PACK/elasticsearch/config/elasticsearch.yml
 chmod 660 $JOBS/elasticsearch/config/elasticsearch.yml
 
