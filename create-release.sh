@@ -8,9 +8,9 @@ if [ -d ./dev_releases ]; then
   echo "delete dev_releases"
   rm -rf dev_releases
 fi
-if [ -f ./logsearch-211.1.1.tgz ]; then
-  echo "delete logsearch-211.1.1.tgz"
-  rm -rf logsearch-211.1.1.tgz
+if [ -f ./logsearch-211.1.2.tgz ]; then
+  echo "delete logsearch-211.1.2.tgz"
+  rm -rf logsearch-211.1.2.tgz
 fi
 
 #if [ -d ./blobs ]; then
@@ -20,4 +20,4 @@ fi
 #
 
 
-bosh -e micro-bosh create-release --name=logsearch --sha2 --version=211.1.1 --tarball=logsearch-211.1.1.tgz --force
+bosh -e micro-bosh create-release --name=logsearch --sha2 --version=211.1.2 --tarball=logsearch-211.1.2.tgz --force
