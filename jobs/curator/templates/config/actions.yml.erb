@@ -31,11 +31,12 @@ actions:
       disable_action: False
     filters:
     - filtertype: pattern
-      kind: regex
-      value: logs*
+      kind: prefix
+      value: logstash-
     - filtertype: age
-      source: creation_date
+      source: name
       direction: older
+      timestring: '%Y.%m.%d'
       unit: <%= p('curator.purge_logs.unit') %>
       unit_count: <%= p('curator.purge_logs.retention_period') %>
 <% p("curator.actions", []).each_with_index do | action, index | %>
